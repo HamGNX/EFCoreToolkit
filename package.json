@@ -1,0 +1,104 @@
+{
+  "name": "efcore-power-tools-vscode",
+  "displayName": "EF Core Power Tools for VS Code (Unofficial)",
+  "description": "Native VS Code workflow for reverse engineering MySQL databases with EF Core Power Tools CLI.",
+  "version": "0.1.0",
+  "publisher": "efcore-toolkit",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HamGNX/EFCoreToolkit.git"
+  },
+  "homepage": "https://github.com/HamGNX/EFCoreToolkit#readme",
+  "bugs": {
+    "url": "https://github.com/HamGNX/EFCoreToolkit/issues"
+  },
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "keywords": [
+    "ef-core",
+    "mysql",
+    "reverse-engineering",
+    "database-first"
+  ],
+  "extensionKind": [
+    "workspace"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false,
+      "description": "Reverse engineering executes an external helper and writes generated source files."
+    },
+    "virtualWorkspaces": {
+      "supported": false
+    }
+  },
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onCommand:efcorePowerTools.reverseEngineer",
+    "onCommand:efcorePowerTools.regenerate",
+    "onCommand:efcorePowerTools.manageProfiles",
+    "onCommand:efcorePowerTools.showOutput"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "efcorePowerTools.reverseEngineer",
+        "title": "Reverse Engineer Database",
+        "category": "EF Core Power Tools"
+      },
+      {
+        "command": "efcorePowerTools.regenerate",
+        "title": "Regenerate from Saved Profile",
+        "category": "EF Core Power Tools"
+      },
+      {
+        "command": "efcorePowerTools.manageProfiles",
+        "title": "Manage Connection Profiles",
+        "category": "EF Core Power Tools"
+      },
+      {
+        "command": "efcorePowerTools.showOutput",
+        "title": "Show Output",
+        "category": "EF Core Power Tools"
+      }
+    ],
+    "configuration": {
+      "title": "EF Core Power Tools",
+      "properties": {
+        "efcorePowerTools.helperPaths": {
+          "type": "object",
+          "default": {},
+          "description": "Optional efcpt executable paths keyed by EF Core major version. Valid configured paths are used before managed helpers.",
+          "scope": "machine"
+        },
+        "efcorePowerTools.dotnetPath": {
+          "type": "string",
+          "default": "",
+          "description": "Optional full path to dotnet. Useful when VS Code launched from macOS Dock cannot inherit shell PATH.",
+          "scope": "machine"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "clean": "node scripts/clean.mjs",
+    "compile": "tsc -p tsconfig.json",
+    "watch": "tsc -watch -p tsconfig.json",
+    "test": "npm run compile && node --test dist/test/unit/*.test.js",
+    "test:integration": "npm run compile && node dist/test/runIntegration.js",
+    "package": "npm run clean && npm run test && vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "@types/vscode": "1.95.0",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.6.0",
+    "typescript": "^5.8.3"
+  }
+}
